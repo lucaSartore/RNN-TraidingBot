@@ -37,11 +37,15 @@ class Simulator:
         Simulator.load_dataset()
         
 
-    def __init__(self, start_date: date, end_date:date, start_cash: float = 1000) -> Simulator:
+    def __init__(self, start_date: date | None, end_date:date | None, start_cash: float = 1000) -> Simulator:
+        if start_date is None:
+            start_date = self.MIN_DATE
         if self.DATASET is None:
             Simulator.load_dataset()
         if start_date < self.MIN_DATE:
             raise ValueError("Start date is before the dataset, please choose a date after: " + str(self.MIN_DATE))
+        if end_date is None:
+            end_date = self.MAX_DATE
         if end_date > self.MAX_DATE:
             raise ValueError("End date is after the dataset, please choose a date before: " + str(self.MAX_DATE))
         self.total_invested_cash: float = start_cash
